@@ -29,7 +29,7 @@ const OrderHistory = () => {
         page,
         limit: filters.limit,
       });
-      const res = await axios.get(`http://localhost:5000/api/order?${params.toString()}`, {
+      const res = await axios.get(`https://zerodha-back-koeo.onrender.com/api/order?${params.toString()}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setOrders(res.data.orders);

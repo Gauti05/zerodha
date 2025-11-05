@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
@@ -9,6 +9,8 @@ import Portfolio from './components/Portfolio';
 import OrderHistory from './components/OrderHistory';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const AppRouter = process.env.NODE_ENV === "production" ? HashRouter : BrowserRouter;
 
 const NavbarAndHeader = () => {
   const location = useLocation();
@@ -28,8 +30,7 @@ const NavbarAndHeader = () => {
 
 function App() {
   return (
-    <Router>
- 
+    <AppRouter>
       <NavbarAndHeader />
 
       <ToastContainer
@@ -70,10 +71,9 @@ function App() {
             </ProtectedRoute>
           }
         />
-     
         <Route path="*" element={<LoginForm />} />
       </Routes>
-    </Router>
+    </AppRouter>
   );
 }
 

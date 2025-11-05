@@ -11,7 +11,7 @@ const PortfolioDashboard = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await axios.get('http://localhost:5000/api/portfolio/analytics', {
+        const res = await axios.get('https://zerodha-back-koeo.onrender.com/api/portfolio/analytics', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setHoldings(res.data.holdings);

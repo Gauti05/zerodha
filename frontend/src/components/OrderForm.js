@@ -72,7 +72,7 @@ const OrderForm = ({ onOrderPlaced }) => {
         if (trailingPercent) payload.trailingPercent = Number(trailingPercent);
       }
 
-      await axios.post('http://localhost:5000/api/order', payload, {
+      await axios.post('https://zerodha-back-koeo.onrender.com/api/order', payload, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

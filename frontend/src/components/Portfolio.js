@@ -3,7 +3,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { AuthContext } from '../context/AuthContext';
 
-const SOCKET_URL = 'http://localhost:5000';
+const SOCKET_URL = 'https://zerodha-back-koeo.onrender.com';
 
 const Portfolio = () => {
   const { token } = useContext(AuthContext);
@@ -50,7 +50,7 @@ const Portfolio = () => {
     const fetchHoldings = async () => {
       setLoading(true);
       try {
-        const res = await axios.get('http://localhost:5000/api/portfolio/analytics', {
+        const res = await axios.get('https://zerodha-back-koeo.onrender.com/api/portfolio/analytics', {
           headers: { Authorization: `Bearer ${token}` },
         });
         setHoldings(res.data.holdings);
