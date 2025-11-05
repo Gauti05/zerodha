@@ -6,9 +6,8 @@ import {
   Route,
   useLocation,
   Navigate,
-  Link,
+  Link
 } from 'react-router-dom';
-
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
@@ -23,15 +22,16 @@ const AppRouter = process.env.NODE_ENV === 'production' ? HashRouter : BrowserRo
 
 const NavbarAndHeader = () => {
   const location = useLocation();
-  const { pathname } = location;
+  const path = location.pathname;
 
-  if (pathname === '/login' || pathname === '/') {
+
+  if (path === '/' || path === '/login') {
     return (
       <header className="bg-blue-600 text-white py-4 px-6 flex justify-between items-center">
         <div className="font-bold text-2xl">ZERODHA</div>
         <Link
           to="/register"
-          className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 transition"
+          className="bg-white text-blue-600 px-4 py-2 rounded shadow hover:bg-gray-100 transition"
         >
           Register
         </Link>
@@ -39,6 +39,7 @@ const NavbarAndHeader = () => {
     );
   }
 
+  
   return <Navbar />;
 };
 
@@ -59,7 +60,7 @@ function App() {
       />
 
       <Routes>
-        {/* Redirect root / to /login */}
+        
         <Route path="/" element={<Navigate to="/login" replace />} />
 
         <Route path="/register" element={<RegistrationForm />} />
@@ -69,6 +70,7 @@ function App() {
           path="/dashboard"
           element={
             <ProtectedRoute>
+              
               <Dashboard />
             </ProtectedRoute>
           }
