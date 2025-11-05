@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
@@ -10,29 +10,46 @@ import OrderHistory from './components/OrderHistory';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// const AppRouter = process.env.NODE_ENV === "production" ? HashRouter : BrowserRouter;
+
+const AppRouter = process.env.NODE_ENV === 'production' ? HashRouter : BrowserRouter;
 
 const NavbarAndHeader = () => {
   const location = useLocation();
   const noNavbarPaths = ['/login', '/register'];
-  const showNavbar = !noNavbarPaths.includes(location.pathname);
+  const isAuthPage = noNavbarPaths.includes(location.pathname);
 
-  return (
-    <>
-      {showNavbar ? <Navbar /> : (
-        <div className="bg-blue-600 py-4 text-white text-center font-bold text-2xl">
-          ZERODHA
-        </div>
-      )}
-    </>
-  );
+  if (isAuthPage) {
+   
+    return (
+      <header className="bg-blue-600 text-white py-4 px-6 flex justify-between items-center">
+        <div className="font-bold text-2xl">ZERODHA</div>
+        {location.pathname === '/login' && (
+          <Link
+            to="/register"
+            className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 transition"
+          >
+            Register
+          </Link>
+        )}
+        {location.pathname === '/register' && (
+          <Link
+            to="/login"
+            className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 transition"
+          >
+            Login
+          </Link>
+        )}
+      </header>
+    );
+  }
+
+  
+  return <Navbar />;
 };
 
 function App() {
   return (
-   
-    <Router>
- 
+    <AppRouter>
       <NavbarAndHeader />
 
       <ToastContainer
@@ -73,12 +90,12 @@ function App() {
             </ProtectedRoute>
           }
         />
-     
+       
         <Route path="*" element={<LoginForm />} />
       </Routes>
-    </Router>
- 
+    </AppRouter>
   );
 }
 
 export default App;
+
