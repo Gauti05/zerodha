@@ -13,6 +13,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await axios.post('https://zerodha-back-koeo.onrender.com/api/auth/login', { email, password });
+      
     
       login(res.data.token, res.data.user);
       navigate('/dashboard'); 
