@@ -1,5 +1,14 @@
 import React from 'react';
-import { BrowserRouter, HashRouter, Routes, Route, useLocation, Link } from 'react-router-dom';
+import {
+  BrowserRouter,
+  HashRouter,
+  Routes,
+  Route,
+  useLocation,
+  Navigate,
+  Link,
+} from 'react-router-dom';
+
 import RegistrationForm from './components/RegistrationForm';
 import LoginForm from './components/LoginForm';
 import Dashboard from './components/Dashboard';
@@ -10,40 +19,26 @@ import OrderHistory from './components/OrderHistory';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 const AppRouter = process.env.NODE_ENV === 'production' ? HashRouter : BrowserRouter;
 
 const NavbarAndHeader = () => {
   const location = useLocation();
-  const noNavbarPaths = ['/login', '/register'];
-  const isAuthPage = noNavbarPaths.includes(location.pathname);
+  const { pathname } = location;
 
-  if (isAuthPage) {
-   
+  if (pathname === '/login' || pathname === '/') {
     return (
       <header className="bg-blue-600 text-white py-4 px-6 flex justify-between items-center">
         <div className="font-bold text-2xl">ZERODHA</div>
-        {location.pathname === '/login' && (
-          <Link
-            to="/register"
-            className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 transition"
-          >
-            Register
-          </Link>
-        )}
-        {location.pathname === '/register' && (
-          <Link
-            to="/login"
-            className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 transition"
-          >
-            Login
-          </Link>
-        )}
+        <Link
+          to="/register"
+          className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-100 transition"
+        >
+          Register
+        </Link>
       </header>
     );
   }
 
-  
   return <Navbar />;
 };
 
@@ -64,8 +59,12 @@ function App() {
       />
 
       <Routes>
+        {/* Redirect root / to /login */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+
         <Route path="/register" element={<RegistrationForm />} />
         <Route path="/login" element={<LoginForm />} />
+
         <Route
           path="/dashboard"
           element={
@@ -90,12 +89,11 @@ function App() {
             </ProtectedRoute>
           }
         />
-       
-        <Route path="*" element={<LoginForm />} />
+
+        <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </AppRouter>
   );
 }
 
 export default App;
-
